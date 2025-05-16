@@ -5,7 +5,7 @@ import static codigo.Tokens.*;
 %type Tokens
 L=[a-zA-Z_]+
 D=[0-9]+
-espacio=[ ,\t,\r,\n]+
+espacio=[ ,\t\r\n]+
 %{
     public String lexeme;
 %}
@@ -13,14 +13,33 @@ espacio=[ ,\t,\r,\n]+
 int |
 if |
 else |
-while {lexeme=yytext(); return Reservadas;}
-{espacio} {/*ignore*/}
-"//".* {/*Ignore*/}
-"=" {return Igual;}
-"+" {return Suma;}
-"-" {return Resta;}
-"*" {return Multiplicacion;}
-"/" {return Division;}
-{L}({L}|{D})* {lexeme=yytext(); return Identificador;}
-("(-"{D}+")")|{D}+ {lexeme=yytext(); return Numero;}
- . {return ERROR;}
+entero |
+while {
+    lexeme = yytext();
+    return Reservadas;
+}
+
+{espacio} { /* ignore */ }
+"//".* { /* ignore */ }
+
+"=" { lexeme = yytext(); return Igual; }
+"+" { lexeme = yytext(); return Suma; }
+"-" { lexeme = yytext(); return Resta; }
+"*" { lexeme = yytext(); return Multiplicacion; }
+"/" { lexeme = yytext(); return Division; }
+";" { lexeme = yytext(); return PuntoComa; }
+
+{L}({L}|{D})* {
+    lexeme = yytext();
+    return Identificador;
+}
+
+("(-"{D}+")")|{D}+ {
+    lexeme = yytext();
+    return Numero;
+}
+
+. {
+    lexeme = yytext();
+    return ERROR;
+}
