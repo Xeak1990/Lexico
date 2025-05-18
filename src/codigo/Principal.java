@@ -18,12 +18,14 @@ public class Principal {
                 texto.append(linea).append("\n");
             }
 
-            // Analiza el texto ingresado
+            // Crear el analizador léxico
             Lexer lexer = new Lexer(new StringReader(texto.toString()));
 
-            Object token;
+            Tokens token;
+            int contador = 1;
             while ((token = lexer.yylex()) != null) {
-                System.out.println("Token: " + token);
+                System.out.println("Token " + contador + ": " + lexer.lexeme + " = " + token);
+                contador++;
             }
 
         } catch (IOException e) {
